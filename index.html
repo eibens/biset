@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>BiSet Visualization</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto">
+    <script src="node_modules/d3/build/d3.min.js"></script>
+    <script defer src="src/main.js"></script>
+    <style>
+      body {
+        font-family: Roboto, sans-serif;
+        margin: 0;
+        color: rgba(0, 0, 0, 0.7);
+        background: #f7f7f7;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+      h1 {
+        margin: 0;
+        font-weight: normal;
+        font-size: 20px;
+      }
+      svg {
+        flex: 1;
+        margin-top: 16px;
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>BiSet Visualization</h1>
+    <svg id="canvas"></svg>
+  </body>
+</html>
