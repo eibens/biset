@@ -32,6 +32,23 @@
         background: white;
         border: 1px solid rgba(0, 0, 0, 0.12);
       }
+      
+      /* SVG */
+      
+      .cell rect {
+        fill: #ddd;
+      }
+      .cell--highlighted rect {
+        fill: #bfd7ff;
+        transition: fill 0.2s;
+      }
+      .link {
+        stroke: #ddd;
+      }
+      .link--highlighted {
+        stroke: #bfd7ff;
+        stroke-width: 2;
+      }
     </style>
   </head>
   <body>

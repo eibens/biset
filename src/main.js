@@ -90,12 +90,35 @@ d3.csv("data.csv", csv => {
       let cellContent = cells.enter()
         .append("g")
         .classed("cell", true)
-        .attr("transform", cellTransform);
+        .attr("transform", cellTransform)
+        .attr("data-column", column.key)
+        .attr("data-index", (d, i) => i);
+
+      let selectRelatedLinks = (columnKey, entityIndex) =>
+        d3.selectAll(
+          `.link-column[data-left="${columnKey}"] .link[data-left="${entityIndex}"],` +
+          `.link-column[data-right="${columnKey}"] .link[data-right="${entityIndex}"]`
+        );
 
       cellContent.append("rect")
         .attr("width", CONFIG.nodeColumnWidth)
         .attr("height", CONFIG.cellHeight - 1)
-        .style("fill", "#ddd");
+        .on("mouseover", function () {
+          let cell = d3.select(this.parentNode);
+          cell.classed("cell--highlighted", true);
+          let entityIndex = cell.attr("data-index");
+          let columnKey = cell.attr("data-column");
+          selectRelatedLinks(columnKey, entityIndex)
+            .classed("link--highlighted", true);
+        })
+        .on("mouseout", function () {
+          let cell = d3.select(this.parentNode);
+          cell.classed("cell--highlighted", false);
+          let entityIndex = cell.attr("data-index");
+          let columnKey = cell.attr("data-column");
+          selectRelatedLinks(columnKey, entityIndex)
+            .classed("link--highlighted", false);
+        });
 
       cellContent.append("text")
         .attr("x", 8)
@@ -111,6 +134,8 @@ d3.csv("data.csv", csv => {
   linkColumns.enter()
     .append("g")
     .classed("link-column", true)
+    .attr("data-left", d => d.key)
+    .attr("data-right", d => linkColumns.data()[d])
     .attr("transform", linkColumnTransform)
     .each(function (column) {
       let halfColWidth = CONFIG.linkColumnWidth / 2;
@@ -130,6 +155,9 @@ d3.csv("data.csv", csv => {
         .attr("stroke", "#aaa")
         .attr("stroke-width", 1)
         .attr("fill", "none")
+        .attr("data-left", d => d[0])
+        .attr("data-right", d => d[1])
+        .attr("data-column", column.key)
         .attr("d", link => {
           let x0 = scaleX(-1);
           let xm = scaleX(0);
@@ -137,6 +165,6 @@ d3.csv("data.csv", csv => {
           let y0 = scaleY(link[0]);
           let y1 = scaleY(link[1]);
           return `M ${x0} ${y0} C ${xm} ${y0} ${xm} ${y1} ${x1} ${y1}`;
-        })
+        });
     });
 });
