@@ -9,4 +9,6 @@ This is an implementation of BiSet using [D3.js](https://d3js.org/). BiSet visua
 1. Install [node.js](https://nodejs.org/en/) on your system.
 2. Clone this repository.
 3. Run `npm install` in the repository root.
-4. Open `index.html` in an [ES2016 compatible](http://kangax.github.io/compat-table/es2016plus/) browser.
+4. Run `npm start` in the repository root.
+
+NOTE: Your browser must be [ES2016 compatible](http://kangax.github.io/compat-table/es2016plus/).
