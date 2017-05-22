@@ -27,6 +27,148 @@ function load(csv) {
   return columns;
 }
 
+function createDomains(data) {
+    var domains = new Array();
+
+    for (j = 0; j < data.length; j++) {
+        var temp = new Array();
+        temp.push();
+        for (i = 0; i < data[j].values.length; i++) {
+            temp.push({
+                id: (i+1),
+                lable: data[j].values[i]
+            });
+        }
+        domains.push({
+            id: (j+1),
+            label: data[j].key,
+            entities: temp,
+        });
+    }
+    
+    return domains;
+}
+
+const setUnion = (...sets) => {
+    let X = new Set();
+    sets.forEach(S => S.forEach(e => X.add(e)))
+    return X;
+};
+
+const setIntersection = (...sets) => sets.reduce(
+ (A, B) => {
+     let X = new Set();
+     B.forEach((v => { if (A.has(v)) X.add(v) }));
+     return X;
+ });
+
+function isSetInArray(arrTarget, cmprSet) {
+    for (i = 0; i < arrTarget.length; i++) {
+        var union = setUnion(arrTarget[i], cmprSet);
+        if (union.size === cmprSet.size) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function findBundles(data, links, column) {
+    targetSet = new Array();
+    for (x = 0; x < data[column].values.length; x++) {
+        var targets = new Set();
+
+        for (y = 0; y < links.length; y++) {
+            if (links[y].source === x + 1) {
+                targets.add(links[y].target);
+            }
+        }
+
+        targetSet.push(targets);
+    }
+
+    clusterArray = new Array();
+    clusterSource = new Array();
+    clusterTarget = new Array();
+    for (x = 0; x < targetSet.length; x++) {
+        temp = new Set();
+        for (y = 0; y < targetSet.length; y++) {
+            var intersection = setIntersection(targetSet[x], targetSet[y]);
+
+            if (intersection.size >= 3) {
+                temp.add(y + 1);
+            }
+        }
+
+        var smallest = 9999999;
+        var smallestIndex;
+        var union = new Set();
+        var smallestSet = new Set();
+        if (temp.size !== 0) {
+            for (var it = temp.values(), val = null; val = it.next().value;) {
+                union = setUnion(union, targetSet[val - 1]);
+
+                if (smallest > targetSet[val-1].size) {
+                    smallest = targetSet[val-1].size;
+                    smallestIndex = val-1;
+                }
+            }
+
+            smallestSet = targetSet[smallestIndex];
+            for (var it = temp.values(), val = null; val = it.next().value;) {
+                intersectSmallest = setIntersection(smallestSet, targetSet[val - 1]);;
+
+                if (intersectSmallest.size !== smallest) {
+                    temp.delete(val);
+                }
+            }
+        }
+
+        if (temp.size >= 3 && !isSetInArray(clusterSource, temp)) {
+            clusterSource.push(temp);
+            clusterTarget.push(smallestSet);
+        }
+    }
+
+    for (x = 0; x < clusterSource.length; x++) {
+        clusterArray.push({
+            id: x+1,
+            source: clusterSource[x],
+            target: clusterTarget[x],
+        });
+    }
+    
+    
+    return clusterArray;
+}
+
+function createRelations(data) {
+    var relations = new Array();
+
+    for (j = 0; j < data.length-1; j++) {
+        var links = new Array();
+
+        for (i = 0; i < data[j].links.length; i++) {   
+            links.push({
+                id: (i + 1),
+                source: data[j].links[i][0]+1,
+                target: data[j].links[i][1]+1,
+            });
+        }
+
+        var bundles = findBundles(data, links, j);
+
+        relations.push({
+            id: 1,
+            source: j+1,
+            target: (j+2),
+            links: links,
+            bundles: bundles
+        });
+    }
+
+    return relations;
+}
+
 function setupSpace(svg, offset, zoomRange) {
   let transform = (group, x, y, s) => {
     group.attr("transform", `translate(${x}, ${y}) scale(${s})`);
@@ -64,6 +206,14 @@ d3.csv("data.csv", csv => {
   };
 
   let data = load(csv);
+  let domains = createDomains(data);
+  let relations = createRelations(data);
+  let datastructure = {
+      domains: domains,
+      relations: relations
+  }
+  console.log(datastructure);
+
   let space = setupSpace(d3.select("svg"), CONFIG.margin, CONFIG.zoomRange);
 
   let nodeColumnX = i => i * (CONFIG.nodeColumnWidth + CONFIG.linkColumnWidth);
