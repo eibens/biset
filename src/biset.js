@@ -106,6 +106,68 @@ class Biset {
     this._drawRelations(space, data.relations);
   }
 
+  _selectLinksByEntityId(id) {
+    return this._root.selectAll(`.link[data-source="${id}"], .link[data-target="${id}"]`);
+  }
+
+  _selectLinksByBundleId(id) {
+    return this._root.selectAll(`.link[data-bundle="${id}"]`);
+  }
+
+  _handleEntityMouseOver(self) {
+    return function () {
+      let node = d3.select(this.parentNode);
+      node.classed("highlighted", true);
+      let id = node.attr("data-id");
+      self._selectLinksByEntityId(id)
+        .classed("highlighted", true);
+    };
+  }
+
+  _handleEntityMouseOut(self) {
+    return function () {
+      let node = d3.select(this.parentNode);
+      node.classed("highlighted", false);
+      let id = node.attr("data-id");
+      self._selectLinksByEntityId(id)
+        .classed("highlighted", false);
+    };
+  }
+
+  _handleBundleMouseOver(self) {
+    return function () {
+      let node = d3.select(this.parentNode);
+      node.classed("highlighted", true);
+      let id = node.attr("data-id");
+      self._selectLinksByBundleId(id)
+        .classed("highlighted", true);
+    };
+  }
+
+  _handleBundleMouseOut(self) {
+    return function () {
+      let node = d3.select(this.parentNode);
+      node.classed("highlighted", false);
+      let id = node.attr("data-id");
+      self._selectLinksByBundleId(id)
+        .classed("highlighted", false);
+    };
+  }
+
+  _handleEntityClick(self) {
+    return function () {
+      let node = d3.select(this.parentNode);
+      node.classed("selected", !node.classed("selected"));
+    };
+  }
+
+  _handleBundleClick(self) {
+    return function () {
+      let node = d3.select(this.parentNode);
+      node.classed("selected", !node.classed("selected"));
+    };
+  }
+
   _sortEntities(domains, mode) {
     let labelSort = (a, b) => a.label.localeCompare(b.label);
 
@@ -266,30 +328,35 @@ class Biset {
     let contents = selection.enter()
       .append("g")
       .classed("entity", true)
+      .attr("data-id", d => d.id)
       .attr("transform", (d, i) => Biset.translate(0, i * this._entityHeight));
 
     // Background
     contents.append("rect")
-      .classed("entity-background", true)
+      .classed("background", true)
       .attr("width", this._domainWidth)
       .attr("height", this._entityHeight - this._entitySpacing)
       .attr("rx", this._cornerRadius)
-      .attr("ry", this._cornerRadius);
+      .attr("ry", this._cornerRadius)
+      .on("mouseover", this._handleEntityMouseOver(this))
+      .on("mouseout", this._handleEntityMouseOut(this))
+      .on("mousedown", this._handleEntityClick(this));
 
     // Frequency indicator
     let indicators = contents.append("rect")
-      .classed("entity-indicator", true)
+      .classed("indicator", true)
       .attr("width", d => this._indicatorUnit * d.frequency)
       .attr("height", this._entityHeight - this._entitySpacing)
       .attr("rx", this._cornerRadius)
       .attr("ry", this._cornerRadius);
 
     // Frequency indicator tooltip
-    indicators.append("title")
+    contents.append("title")
       .text(d => `${d.frequency} occurrence${d.frequency != 1 ? "s" : ""}`);
 
     // Label
     contents.append("text")
+      .classed("text", true)
       .attr("x", 8 + this._indicatorWidth)
       .attr("y", this._entityHeight / 2 + 5)
       .attr("font-size", "16px")
@@ -332,6 +399,7 @@ class Biset {
     let containers = selection.enter()
       .append("g")
       .classed("bundle", true)
+      .attr("data-id", d => d.id)
       .attr("transform", d => {
         let x = scaleX(0) - width(d) / 2;
         let y = scaleY(d.position) - this._bundleHeight / 2;
@@ -339,14 +407,17 @@ class Biset {
       });
 
     containers.append("rect")
-      .classed("bundle-background", true)
+      .classed("background", true)
       .attr("width", width)
       .attr("height", this._bundleHeight - this._bundleSpacing)
       .attr("rx", this._cornerRadius)
-      .attr("ry", this._cornerRadius);
+      .attr("ry", this._cornerRadius)
+      .on("mouseover", this._handleBundleMouseOver(this))
+      .on("mouseout", this._handleBundleMouseOut(this))
+      .on("mousedown", this._handleBundleClick(this));
 
     containers.append("rect")
-      .classed("bundle-indicator", true)
+      .classed("indicator", true)
       .attr("width", d => d.sources.length / d.size * width(d))
       .attr("height", this._bundleHeight - this._bundleSpacing)
       .attr("rx", this._cornerRadius)
@@ -367,6 +438,9 @@ class Biset {
       .append("path")
       .classed("link", true)
       .classed("solo-link", true)
+      .attr("data-id", d => d.id)
+      .attr("data-source", d => d.source.id)
+      .attr("data-target", d => d.target.id)
       .attr("d", d => Biset.link(
         scaleX(-1),
         scaleY(d.source.position),
@@ -386,6 +460,9 @@ class Biset {
       .append("path")
       .classed("link", true)
       .classed("source-link", true)
+      .attr("data-id", d => d.id)
+      .attr("data-source", d => d.entity.id)
+      .attr("data-bundle", d => d.bundle.id)
       .attr("d", d => Biset.link(
         -d.bundle.size * this._indicatorUnit / 2,
         scaleY(d.bundle.position),
@@ -405,6 +482,9 @@ class Biset {
       .append("path")
       .classed("link", true)
       .classed("target-link", true)
+      .attr("data-id", d => d.id)
+      .attr("data-target", d => d.entity.id)
+      .attr("data-bundle", d => d.bundle.id)
       .attr("d", d => Biset.link(
         d.bundle.size * this._indicatorUnit / 2,
         scaleY(d.bundle.position),

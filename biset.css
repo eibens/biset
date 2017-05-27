@@ -1,28 +1,32 @@
 
-.entity-background {
+.entity .background {
     fill: #BBDEFB;
-}
-.entity-indicator {
-    fill: #90CAF9;
-}
-.entity--highlighted rect {
-    fill: #bfd7ff;
     transition: fill 0.2s;
 }
+.entity .indicator {
+    fill: rgba(0, 0, 0, 0.12);
+    pointer-events: none;
+}
+.entity .text {
+    pointer-events: none;
+}
+
 
 .link {
-    stroke: #ddd;
+    stroke: #BBDEFB;
     stroke-width: 1;
     fill: none;
+    transition: all 0.2s;
 }
-.link--highlighted {
-    stroke: #bfd7ff;
-    stroke-width: 2;
+.link.highlighted {
+    stroke-width: 3;
 }
 
-.bundle-background {
+.bundle .background {
     fill: #BBDEFB;
+    transition: fill 0.2s;
 }
-.bundle-indicator {
-    fill: #90CAF9;
+.bundle .indicator {
+    fill: rgba(0, 0, 0, 0.12);
+    pointer-events: none;
 }
