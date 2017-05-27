@@ -13,6 +13,7 @@ class Biset {
     this.bundleHeight = 48;
     this.bundleSpacing = 8;
     this.sortMode = 'priority';
+    this.edgeMode = 'edges';
     this.minBundleSources = 2;
     this.minBundleTargets = 2;
     this.minBundleSize = 0;
@@ -68,6 +69,10 @@ class Biset {
     this._sortMode = value;
   }
 
+  set edgeMode(value) {
+    this._edgeMode = value;
+  }
+
   set minBundleSources(value) {
     this._minBundleSources = value;
   }
@@ -93,6 +98,7 @@ class Biset {
     this._sortEntities(data.domains, this._sortMode);
     this._layoutBundles(data.relations, this._minBundleSources,
       this._minBundleTargets, this._minBundleSize);
+    this._hideLinks(data.relations, this._edgeMode);
 
     // Draw the actual visualization.
     let space = this._space;
@@ -148,7 +154,8 @@ class Biset {
         let hasMinSources = bundle.sources.length >= minSources;
         let hasMinTargets = bundle.targets.length >= minTargets;
         let hasMinSize = entities.length >= minSize;
-        bundle.visible = hasMinSources && hasMinTargets && hasMinSize;
+        let bundlesEnabled = this._edgeMode == 'bundles' || this._edgeMode == 'hybrid';
+        bundle.visible = bundlesEnabled && hasMinSources && hasMinTargets && hasMinSize;
       });
 
       let visibleBundles = relation.bundles
@@ -172,6 +179,26 @@ class Biset {
     });
   }
 
+  _hideLinks(relations, edgeMode) {
+    relations.forEach(relation => {
+      let visibleBundles = relation.bundles.filter(b => b.visible);
+      relation.links.forEach(link => {
+        link.visible = edgeMode == 'edges' || edgeMode == 'hybrid';
+
+        // In hybrid mode we hide all links that are expressed by a bundle.
+        if (edgeMode == 'hybrid') {
+          visibleBundles.forEach(bundle => {
+            let containsSource = bundle.sources.indexOf(link.source) != -1;
+            let containsTarget = bundle.targets.indexOf(link.target) != -1;
+            if (containsSource && containsTarget) {
+              link.visible = false;
+            }
+          });
+        }
+      });
+    });
+  }
+
   _relationScaleX() {
     let halfRelationWidth = this._relationWidth / 2;
     return d3.scaleLinear()
@@ -180,7 +207,6 @@ class Biset {
   }
 
   _relationScaleY() {
-    let halfRelationWidth = this._relationWidth / 2;
     return d3.scaleLinear()
       .domain([0, 1])
       .range([0, this._entityHeight]);
@@ -287,6 +313,7 @@ class Biset {
       })
       .each(function (relation) {
         let node = d3.select(this);
+        self._drawSoloLinks(node, relation.links);
         self._drawSourceLinks(node, relation.sourceLinks);
         self._drawTargetLinks(node, relation.targetLinks);
         self._drawBundles(node, relation.bundles);
@@ -327,6 +354,25 @@ class Biset {
 
     containers.append("title")
       .text(d => `${d.sources.length}/${d.targets.length}`);
+  }
+
+  _drawSoloLinks(root, links) {
+    let scaleX = this._relationScaleX();
+    let scaleY = this._relationScaleY();
+
+    let selection = root
+      .selectAll(".solo-link")
+      .data(links.filter(l => l.visible));
+    selection.enter()
+      .append("path")
+      .classed("link", true)
+      .classed("solo-link", true)
+      .attr("d", d => Biset.link(
+        scaleX(-1),
+        scaleY(d.source.position),
+        scaleX(1),
+        scaleY(d.target.position)
+      ));
   }
 
   _drawSourceLinks(root, links) {

@@ -11,6 +11,11 @@ d3.select("#sort-mode-input").on("input", function () {
   biset.draw();
 });
 
+d3.select("#edge-mode-input").on("input", function () {
+  biset.edgeMode = this.value;
+  biset.draw();
+});
+
 d3.select("#file-input").on("change", function () {
   if (!this.files || !this.files[0]) return;
   let file = this.files[0];
