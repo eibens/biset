@@ -1,0 +1,28 @@
+
+.entity-background {
+    fill: #BBDEFB;
+}
+.entity-indicator {
+    fill: #90CAF9;
+}
+.entity--highlighted rect {
+    fill: #bfd7ff;
+    transition: fill 0.2s;
+}
+
+.link {
+    stroke: #ddd;
+    stroke-width: 1;
+    fill: none;
+}
+.link--highlighted {
+    stroke: #bfd7ff;
+    stroke-width: 2;
+}
+
+.bundle-background {
+    fill: #BBDEFB;
+}
+.bundle-indicator {
+    fill: #90CAF9;
+}

@@ -4,7 +4,11 @@
     <title>BiSet Visualization</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto">
     <script src="node_modules/d3/build/d3.min.js"></script>
+    <script defer src="src/bundle.js"></script>
+    <script defer src="src/transform.js"></script>
+    <script defer src="src/biset.js"></script>
     <script defer src="src/main.js"></script>
+    <link rel="stylesheet" href="biset.css"/>
     <style>
       body {
         font-family: Roboto, sans-serif;
@@ -30,29 +34,48 @@
         flex: 1;
         margin-top: 16px;
         background: white;
+        width: 100%;
         border: 1px solid rgba(0, 0, 0, 0.12);
       }
       
-      /* SVG */
-      
-      .cell rect {
-        fill: #ddd;
+      .options {
+        display: flex;
+        flex-direction: row;
+        margin-top: 16px;
       }
-      .cell--highlighted rect {
-        fill: #bfd7ff;
-        transition: fill 0.2s;
+      .options .element {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 200px;
       }
-      .link {
-        stroke: #ddd;
+      .options label {
+        margin-bottom: 4px;
+        font-size: 12px;
       }
-      .link--highlighted {
-        stroke: #bfd7ff;
-        stroke-width: 2;
+      .options select {
+        border: none;
+        border-bottom: 2px solid #2196F3;
+        outline: none;
+      }
+      .options input, .options select {
+        height: 40px;
+        background: none;
       }
     </style>
   </head>
   <body>
     <h1>BiSet Visualization</h1>
+    <div class="options">
+      <div class="element">
+        <label for="sort-mode-input">Sort mode</label>
+        <select id="sort-mode-input">
+          <option value="frequency">Frequency</option>
+          <option value="label">Alphabet</option>
+          <option value="priority">Priority</option>
+        </select>
+      </div>
+    </div>
     <svg id="canvas"></svg>
   </body>
 </html>
