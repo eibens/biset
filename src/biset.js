@@ -1,8 +1,7 @@
 class Biset {
 
-  constructor(root, csv) {
+  constructor(root) {
     this._root = root;
-    this._data = transform(csv);
     this.zoomRange = [0.5, 2];
     this.margin = 40;
     this.cornerRadius = 4;
@@ -19,7 +18,10 @@ class Biset {
     this.minBundleSize = 0;
 
     this._space = this._drawSpace(this._root, this._margin, this._zoomRange);
-    this.draw();
+  }
+
+  set data(value) {
+    this._data = transform(value);
   }
 
   set zoomRange(value) {
