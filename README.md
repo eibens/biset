@@ -12,3 +12,17 @@ This is an implementation of BiSet using [D3.js](https://d3js.org/). BiSet visua
 4. Run `npm start` in the repository root.
 
 NOTE: Your browser must be [ES2016 compatible](http://kangax.github.io/compat-table/es2016plus/).
+
+## Features
+
+- Visualize custom CSV files with two or more columns.
+- Entities have an indicator encoding their frequency in the data.
+- Mouse-over an entity or bundle highlights adjacent edges.
+- Bundle width encodes the size and matches entity frequency indicators.
+- Bundles have an indicator encoding the size of the source set.
+- Entities and bundles can be selected.
+- Entitiy and bundle colors encode the number of selected neighbors.
+- Edge colors encode the average relevancy of their source and target.
+- Entities can be sorted by frequency, label, or priority (bundle size).
+- Modes for displaying edges only, bundles only, or a combination of both.
+- Options for filtering bundles based on their size.
