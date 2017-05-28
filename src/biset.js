@@ -2,7 +2,7 @@ class Biset {
 
   constructor(root) {
     this._root = root;
-    this.zoomRange = [0.5, 2];
+    this.zoomRange = [0.5, 1];
     this.margin = 40;
     this.cornerRadius = 4;
     this.domainWidth = 200;
