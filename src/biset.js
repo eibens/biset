@@ -190,10 +190,27 @@ class Biset {
       return sort != 0 ? sort : labelSort(a, b);
     };
 
+    // For priority sort we apply the greedy algorithm from the paper.
+    // This algorithm computes a 'rank' attribute for every entity.
+    this._data.entities.forEach(e => e.rank = undefined);
+    this._data.bundles
+      .sort((a, b) => a.size - b.size)
+      .map((b, i) => {
+        b.rank = i;
+        return b;
+      })
+      .forEach(bundle => {
+        bundle.sources.concat(bundle.targets).forEach(entity => {
+          if (entity.rank == undefined) {
+            let bundles = entity.bundles.filter(b => b.visible);
+            let totalRank = d3.sum(bundles, b => b.rank);
+            entity.rank = totalRank / bundles.length;
+          }
+        });
+      });
+
     let prioritySort = (a, b) => {
-      // TODO: implement priority sort (by bundles)
-      console.log("Priority sort is not yet implemented. Sorting by frequency instead.");
-      return frequencySort(a, b);
+      return a.rank - b.rank;
     };
 
     let sort = frequencySort;
