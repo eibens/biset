@@ -99,7 +99,7 @@ class Biset {
     this._layoutBundles(data.relations, this._minBundleSources,
       this._minBundleTargets, this._minBundleSize);
     this._hideLinks(data.relations, this._edgeMode);
-    this._markSelection(data);
+    this._updateSelection();
 
     // Draw the actual visualization.
     let space = this._space;
@@ -161,7 +161,7 @@ class Biset {
       let id = node.attr("data-id");
       let entity = self._data.entities.filter(e => e.id == id)[0];
       entity.selected = !entity.selected;
-      self.draw();
+      self._updateSelection();
     };
   }
 
@@ -171,7 +171,7 @@ class Biset {
       let id = node.attr("data-id");
       let bundle = self._data.bundles.filter(b => b.id == id)[0];
       bundle.selected = !bundle.selected;
-      self.draw();
+      self._updateSelection();
     };
   }
 
@@ -268,7 +268,8 @@ class Biset {
     });
   }
 
-  _markSelection(data) {
+  _updateSelection() {
+    let data = this._data;
     let applyFocus = (element, array) => array
       .filter((x, i, self) => self.indexOf(x) === i)
       .filter(x => x.selected)
@@ -300,6 +301,17 @@ class Biset {
         link.focus = linkFocus(link.entity, link.bundle);
       });
     });
+
+    d3.selectAll(".entity")
+      .classed("selected", d => d.selected)
+      .attr("data-focus", d => d.focus);
+
+    d3.selectAll(".bundle")
+      .classed("selected", d => d.selected)
+      .attr("data-focus", d => d.focus);
+
+    d3.selectAll(".link")
+      .attr("data-focus", d => d.focus);
   }
 
   _relationScaleX() {

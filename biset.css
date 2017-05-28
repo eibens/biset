@@ -1,5 +1,5 @@
 .background {
-    transition: fill 0.2s;
+    transition: all 0.2s;
 }
 [data-focus] .background { fill: #FB8C00; }
 [data-focus="0"] .background { fill: #BBDEFB; }
@@ -26,6 +26,7 @@
 .link {
     stroke-width: 1;
     fill: none;
+    transition: all 0.2s;
 }
 .link.highlighted {
     stroke: #BBDEFB !important;
