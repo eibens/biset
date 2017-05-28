@@ -99,11 +99,12 @@ class Biset {
     this._layoutBundles(data.relations, this._minBundleSources,
       this._minBundleTargets, this._minBundleSize);
     this._hideLinks(data.relations, this._edgeMode);
+    this._markSelection(data);
 
     // Draw the actual visualization.
     let space = this._space;
-    this._drawDomains(space, data.domains);
     this._drawRelations(space, data.relations);
+    this._drawDomains(space, data.domains);
   }
 
   _selectLinksByEntityId(id) {
@@ -157,14 +158,20 @@ class Biset {
   _handleEntityClick(self) {
     return function () {
       let node = d3.select(this.parentNode);
-      node.classed("selected", !node.classed("selected"));
+      let id = node.attr("data-id");
+      let entity = self._data.entities.filter(e => e.id == id)[0];
+      entity.selected = !entity.selected;
+      self.draw();
     };
   }
 
   _handleBundleClick(self) {
     return function () {
       let node = d3.select(this.parentNode);
-      node.classed("selected", !node.classed("selected"));
+      let id = node.attr("data-id");
+      let bundle = self._data.bundles.filter(b => b.id == id)[0];
+      bundle.selected = !bundle.selected;
+      self.draw();
     };
   }
 
@@ -261,6 +268,40 @@ class Biset {
     });
   }
 
+  _markSelection(data) {
+    let applyFocus = (element, array) => array
+      .filter((x, i, self) => self.indexOf(x) === i)
+      .filter(x => x.selected)
+      .filter(x => x !== element)
+      .forEach(x => element.focus++);
+
+    data.entities.forEach(entity => {
+      entity.focus = entity.selected ? 1 : 0;
+      applyFocus(entity, entity.sources);
+      applyFocus(entity, entity.targets);
+      applyFocus(entity, entity.bundles);
+    });
+
+    data.bundles.forEach(bundle => {
+      bundle.focus = bundle.selected ? 1 : 0;
+      applyFocus(bundle, bundle.sources);
+      applyFocus(bundle, bundle.targets);
+    });
+
+    let linkFocus = (a, b) => Math.min(a.focus, b.focus);
+    data.relations.forEach(relation => {
+      relation.links.forEach(link => {
+        link.focus = linkFocus(link.source, link.target);
+      });
+      relation.sourceLinks.forEach(link => {
+        link.focus = linkFocus(link.entity, link.bundle);
+      });
+      relation.targetLinks.forEach(link => {
+        link.focus = linkFocus(link.entity, link.bundle);
+      });
+    });
+  }
+
   _relationScaleX() {
     let halfRelationWidth = this._relationWidth / 2;
     return d3.scaleLinear()
@@ -328,7 +369,9 @@ class Biset {
     let contents = selection.enter()
       .append("g")
       .classed("entity", true)
+      .classed("selected", d => d.selected)
       .attr("data-id", d => d.id)
+      .attr("data-focus", d => d.focus)
       .attr("transform", (d, i) => Biset.translate(0, i * this._entityHeight));
 
     // Background
@@ -399,7 +442,9 @@ class Biset {
     let containers = selection.enter()
       .append("g")
       .classed("bundle", true)
+      .classed("selected", d => d.selected)
       .attr("data-id", d => d.id)
+      .attr("data-focus", d => d.focus)
       .attr("transform", d => {
         let x = scaleX(0) - width(d) / 2;
         let y = scaleY(d.position) - this._bundleHeight / 2;
@@ -441,6 +486,7 @@ class Biset {
       .attr("data-id", d => d.id)
       .attr("data-source", d => d.source.id)
       .attr("data-target", d => d.target.id)
+      .attr("data-focus", d => d.focus)
       .attr("d", d => Biset.link(
         scaleX(-1),
         scaleY(d.source.position),
@@ -463,6 +509,7 @@ class Biset {
       .attr("data-id", d => d.id)
       .attr("data-source", d => d.entity.id)
       .attr("data-bundle", d => d.bundle.id)
+      .attr("data-focus", d => d.focus)
       .attr("d", d => Biset.link(
         -d.bundle.size * this._indicatorUnit / 2,
         scaleY(d.bundle.position),
@@ -485,6 +532,7 @@ class Biset {
       .attr("data-id", d => d.id)
       .attr("data-target", d => d.entity.id)
       .attr("data-bundle", d => d.bundle.id)
+      .attr("data-focus", d => d.focus)
       .attr("d", d => Biset.link(
         d.bundle.size * this._indicatorUnit / 2,
         scaleY(d.bundle.position),

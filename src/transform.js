@@ -21,6 +21,7 @@ function transform(csv) {
           domain: domain,
           sources: [],
           targets: [],
+          bundles: [],
           frequency: 0,
         };
       }
@@ -95,7 +96,11 @@ function transform(csv) {
       sources: Array.from(b.sources),
       targets: Array.from(b.targets),
       size: b.sources.size + b.targets.size,
-    }));
+    })).map(bundle => {
+      bundle.sources.forEach(e => e.bundles.push(bundle));
+      bundle.targets.forEach(e => e.bundles.push(bundle));
+      return bundle;
+    });
     return relation.bundles;
   }).reduce((acc, b) => acc.concat(b), []);
 
@@ -121,5 +126,6 @@ function transform(csv) {
     domains: domains,
     relations: relations,
     entities: entities,
+    bundles: bundles,
   };
 }

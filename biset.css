@@ -1,8 +1,20 @@
-
-.entity .background {
-    fill: #BBDEFB;
+.background {
     transition: fill 0.2s;
 }
+[data-focus] .background { fill: #FB8C00; }
+[data-focus="0"] .background { fill: #BBDEFB; }
+[data-focus="1"] .background { fill: #FFF3E0; }
+[data-focus="2"] .background { fill: #FFE0B2; }
+[data-focus="3"] .background { fill: #FFCC80; }
+[data-focus="4"] .background { fill: #FFB74D; }
+[data-focus="5"] .background { fill: #FFA726; }
+[data-focus="6"] .background { fill: #FF9800; }
+
+.selected .background {
+    stroke-width: 2;
+    stroke: black;
+}
+
 .entity .indicator {
     fill: rgba(0, 0, 0, 0.12);
     pointer-events: none;
@@ -11,21 +23,24 @@
     pointer-events: none;
 }
 
-
 .link {
-    stroke: #BBDEFB;
     stroke-width: 1;
     fill: none;
-    transition: all 0.2s;
 }
 .link.highlighted {
-    stroke-width: 3;
+    stroke: #BBDEFB !important;
+    stroke-width: 3 !important;
 }
+.link[data-focus] { stroke: black; stroke-width: 2; }
+.link[data-focus="0"] { stroke: rgba(0, 0, 0, 0.1); stroke-width: 1 }
+.link[data-focus="1"] { stroke: rgba(0, 0, 0, 0.3); }
+.link[data-focus="2"] { stroke: rgba(0, 0, 0, 0.4); }
+.link[data-focus="3"] { stroke: rgba(0, 0, 0, 0.5); }
+.link[data-focus="4"] { stroke: rgba(0, 0, 0, 0.6); }
+.link[data-focus="5"] { stroke: rgba(0, 0, 0, 0.7); }
+.link[data-focus="6"] { stroke: rgba(0, 0, 0, 0.8); }
+.link[data-focus="7"] { stroke: rgba(0, 0, 0, 0.9); }
 
-.bundle .background {
-    fill: #BBDEFB;
-    transition: fill 0.2s;
-}
 .bundle .indicator {
     fill: rgba(0, 0, 0, 0.12);
     pointer-events: none;
