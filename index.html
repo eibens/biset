@@ -33,7 +33,6 @@
         pointer-events: none;
         opacity: 0.5;
       }
-      
       svg {
         flex: 1;
         margin-top: 16px;
@@ -46,31 +45,34 @@
         display: flex;
         flex-direction: row;
         margin: 0 -8px 0 -8px;
+        justify-content: space-between;
       }
-      .options .element {
+      .left, .right {
+        display: flex;
+        flex-direction: row;
+      }
+      .element {
         display: flex;
         flex-direction: column;
         align-items: stretch;
         width: 200px;
         margin: 0 8px;
       }
-      .options label {
+      .auto-width {
+        width: auto;
+      }
+      label {
         margin-bottom: 4px;
         font-size: 12px;
       }
-      .options select {
+      input, select {
+        height: 40px;
+        background: none;
         border: none;
         border-bottom: 2px solid #2196F3;
         outline: none;
       }
-      .options input, .options select {
-        height: 40px;
-        background: none;
-      }
-      .element.button {
-        width: auto;
-      }
-      #file-button {
+      .button {
         flex: 1;
         margin: 0;
         background: #2196F3;
@@ -82,34 +84,62 @@
         color: white;
         text-transform: uppercase;
         font-size: 14px;
-        transition: background 0.2s;
+        transition: opacity 0.2s;
+        border: none;
+        outline: none;
+        cursor: pointer;
       }
-      #file-button:hover {
-        background: #42A5F5;
+      .button:hover {
+        opacity: 0.9;
+      }
+      .button[disabled] {
+        background: #BDBDBD;
+        cursor: default;
+      }
+      .button[disabled]:hover {
+        opacity: 1;
+      }
+      #clear-button {
+        background: #757575;
       }
     </style>
   </head>
   <body>
     <div class="options">
-      <div class="element button">
-        <label id="file-button" for="file-input" class="button">Browse</label>
-        <input id="file-input" type="file" accept=".csv" hidden/>
+      <div class="left">
+        <div class="element auto-width">
+          <label id="file-button" class="button" for="file-input">Browse</label>
+          <input id="file-input" type="file" accept=".csv" hidden/>
+        </div>
+        <div class="element">
+          <label for="sort-mode-input">Sort mode</label>
+          <select id="sort-mode-input">
+            <option value="frequency">Frequency</option>
+            <option value="label">Alphabet</option>
+            <option value="priority">Priority</option>
+          </select>
+        </div>
+        <div class="element">
+          <label for="edge-mode-input">Edge mode</label>
+          <select id="edge-mode-input">
+            <option value="edges">Edges only</option>
+            <option value="bundles">Bundles only</option>
+            <option value="hybrid">Edges and Bundles</option>
+          </select>
+        </div>
+        <div class="element">
+          <label for="bundle-size-input">Minimum bundle size</label>
+          <input id="bundle-size-input" type="number" min="2" value="2"/>
+        </div>
+        <div class="element">
+          <label for="bundle-support-input">Minimum bundle support</label>
+          <input id="bundle-support-input" type="number" min="2" value="2"/>
+        </div>
       </div>
-      <div class="element">
-        <label for="sort-mode-input">Sort mode</label>
-        <select id="sort-mode-input">
-          <option value="frequency">Frequency</option>
-          <option value="label">Alphabet</option>
-          <option value="priority">Priority</option>
-        </select>
-      </div>
-      <div class="element">
-        <label for="edge-mode-input">Edge mode</label>
-        <select id="edge-mode-input">
-          <option value="edges">Edges only</option>
-          <option value="bundles">Bundles only</option>
-          <option value="hybrid">Edges and Bundles</option>
-        </select>
+      <div class="right">
+        <div class="element auto-width">
+          <button id="clear-button" class="button">Clear Selection</button>
+        </div>
       </div>
     </div>
     <svg id="canvas"></svg>

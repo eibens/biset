@@ -107,6 +107,12 @@ class Biset {
     this._drawDomains(space, data.domains);
   }
 
+  clearSelection() {
+    this._data.bundles.forEach(b => b.selected = false);
+    this._data.entities.forEach(b => b.selected = false);
+    this._updateSelection();
+  }
+
   _selectLinksByEntityId(id) {
     return this._root.selectAll(`.link[data-source="${id}"], .link[data-target="${id}"]`);
   }

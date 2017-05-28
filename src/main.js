@@ -16,6 +16,21 @@ d3.select("#edge-mode-input").on("input", function () {
   biset.draw();
 });
 
+d3.select("#bundle-size-input").on("input", function () {
+  biset.minBundleSize = this.value;
+  biset.draw();
+});
+
+d3.select("#bundle-support-input").on("input", function () {
+  biset.minBundleSources = this.value;
+  biset.minBundleTargets = this.value;
+  biset.draw();
+});
+
+d3.select("#clear-button").on("click", function () {
+  biset.clearSelection();
+});
+
 d3.select("#file-input").on("change", function () {
   if (!this.files || !this.files[0]) return;
   let file = this.files[0];
