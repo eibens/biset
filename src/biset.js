@@ -1,5 +1,12 @@
+/**
+ * Biset visualization for relational data.
+ */
 class Biset {
 
+  /**
+   * Creates a new Biset visualization.
+   * @param root SVG element in which the visualization should be rendered
+   */
   constructor(root) {
     this._root = root;
     this.zoomRange = [0.5, 1];
@@ -21,70 +28,137 @@ class Biset {
     this._space = this._drawSpace(this._root, this._margin, this._zoomRange);
   }
 
+  /**
+   * Set the visualization data in the format returned by d3's parse functions.
+   * @param value csv
+   */
   set data(value) {
     this._data = transform(value);
   }
 
+  /**
+   * Set the minimum and maximum scale for zooming as a pair of values.
+   * @param value {Array}
+   */
   set zoomRange(value) {
     this._zoomRange = value;
   }
 
+  /**
+   * Set the initial offset of the visualization from the top left corner.
+   * @param value {int}
+   */
   set margin(value) {
     this._margin = value;
   }
 
+  /**
+   * Set the corner radius for entities and bundles.
+   * @param value {int}
+   */
   set cornerRadius(value) {
     this._cornerRadius = value;
   }
 
+  /**
+   * Set the width of the domain columns.
+   * @param value {int}
+   */
   set domainWidth(value) {
     this._domainWidth = value;
   }
 
+  /**
+   * Set the width of the area between domain columns.
+   * @param value {int}
+   */
   set relationWidth(value) {
     this._relationWidth = value;
   }
 
+  /**
+   * Set the height of entities.
+   * @param value {int}
+   */
   set entityHeight(value) {
     this._entityHeight = value;
   }
 
+  /**
+   * Set the height removed from the bottom of each entity.
+   * @param value {int}
+   */
   set entitySpacing(value) {
     this._entitySpacing = value;
   }
 
+  /**
+   * Set the width taken up by the entity frequency indicator.
+   * @param value {int}
+   */
   set indicatorWidth(value) {
     this._indicatorWidth = value;
   }
 
+  /**
+   * Set the height of bundles.
+   * @param value {int}
+   */
   set bundleHeight(value) {
     this._bundleHeight = value;
   }
 
+  /**
+   * Set the height removed from the bottom of each bundle.
+   * @param value {int}
+   */
   set bundleSpacing(value) {
     this._bundleSpacing = value;
   }
 
+  /**
+   * Set the sort mode which is 'frequency', 'label', or 'priority'.
+   * @param value {string}
+   */
   set sortMode(value) {
     this._sortMode = value;
   }
 
+  /**
+   * Set the edge display mode which is 'edges', 'bundles', or 'hybrid'.
+   * @param value {string}
+   */
   set edgeMode(value) {
     this._edgeMode = value;
   }
 
+  /**
+   * Set the minimum number of entities on the left side of a bundle.
+   * @param value {int}
+   */
   set minBundleSources(value) {
     this._minBundleSources = value;
   }
 
+  /**
+   * Set the minimum number of entities on the right side of a bundle.
+   * @param value {int}
+   */
   set minBundleTargets(value) {
     this._minBundleTargets = value;
   }
 
+  /**
+   * Set the minimum bundle size.
+   * @param value {int}
+   */
   set minBundleSize(value) {
     this._minBundleSize = value;
   }
 
+  /**
+   * Updates the whole visualization.
+   */
   draw() {
     let data = this._data;
 
@@ -107,6 +181,9 @@ class Biset {
     this._drawDomains(space, data.domains);
   }
 
+  /**
+   * Deselects all selected entities and bundles.
+   */
   clearSelection() {
     this._data.bundles.forEach(b => b.selected = false);
     this._data.entities.forEach(b => b.selected = false);
