@@ -1,52 +1,52 @@
-movie_title,director_name,actor_1_name,budget,title_year
-Lord of the Rings: 1,Peter Jackson,Christopher Lee,93000000,2001
-Lord of the Rings: 3,Peter Jackson,Orlando Bloom,94000000,2003
-Lord of the Rings: 2,Peter Jackson,Christopher Lee,94000000,2002
-Harry Potter: 6,David Yates,Alan Rickman,250000000,2009
-Harry Potter: 5,David Yates,Robert Pattinson,150000000,2007
-Harry Potter: 4,Mike Newell,Robert Pattinson,150000000,2005
-Harry Potter: 3,Alfonso Cuarón,Daniel Radcliffe,130000000,2004
-Harry Potter: 7,Matt Birch,Rupert Grint,250000000,2011
-Harry Potter: 1,Chris Columbus,Daniel Radcliffe,125000000,2001
-Harry Potter: 2,Chris Columbus,Daniel Radcliffe,100000000,2002
-Star Wars: III,George Lucas,Natalie Portman,113000000,2005
-Star Wars: II,George Lucas,Natalie Portman,115000000,2002
-Star Wars: I,George Lucas,Natalie Portman,115000000,1999
-Star Wars: VI,Richard Marquand,Harrison Ford,32500000,1983
-Star Wars: V,Irvin Kershner,Harrison Ford,18000000,1980
-Star Wars: IV,George Lucas,Harrison Ford,11000000,1977
-Star Wars: VII,Doug Walker,Doug Walker,93000000,2001
-Lord of the Rings: 1,Peter Jackson,Orlando Bloom,93000000,2001
-Lord of the Rings: 3,Peter Jackson,Billy Boyd,94000000,2003
-Lord of the Rings: 2,Peter Jackson,Orlando Bloom,94000000,2002
-Harry Potter: 6,David Yates,Daniel Radcliffe,250000000,2009
-Harry Potter: 5,David Yates,Daniel Radcliffe,150000000,2007
-Harry Potter: 4,Mike Newell,Daniel Radcliffe,150000000,2005
-Harry Potter: 3,Alfonso Cuarón,Gary Oldman,130000000,2004
-Harry Potter: 7,Matt Birch,Dave Legeno,250000000,2011
-Harry Potter: 1,Chris Columbus,Fiona Shaw,125000000,2001
-Harry Potter: 2,Chris Columbus,Rupert Grint,100000000,2002
-Star Wars: III,George Lucas,Christopher Lee,113000000,2005
-Star Wars: II,George Lucas,Christopher Lee,115000000,2002
-Star Wars: I,George Lucas,Liam Neeson,115000000,1999
-Star Wars: VI,Richard Marquand,Ian McDiarmid,32500000,1983
-Star Wars: V,Irvin Kershner,Kenny Baker,18000000,1980
-Star Wars: IV,George Lucas,Peter Cushing,11000000,1977
-Star Wars: VII,Doug Walker,Rob Walker,93000000,2001
-Lord of the Rings: 1,Peter Jackson,Billy Boyd,93000000,2001
-Lord of the Rings: 3,Peter Jackson,Bernard Hill,94000000,2003
-Lord of the Rings: 2,Peter Jackson,Billy Boyd,94000000,2002
-Harry Potter: 6,David Yates,Rupert Grint,250000000,2009
-Harry Potter: 5,David Yates,Fiona Shaw,150000000,2007
-Harry Potter: 4,Mike Newell,Rupert Grint,150000000,2005
-Harry Potter: 3,Alfonso Cuarón,Rupert Grint,130000000,2004
-Harry Potter: 7,Matt Birch,Ralph Ineson,250000000,2011
-Harry Potter: 1,Chris Columbus,Verne Troyer,125000000,2001
-Harry Potter: 2,Chris Columbus,Emma Watson,100000000,2002
-Star Wars: III,George Lucas,Hayden Christensen,113000000,2005
-Star Wars: II,George Lucas,Hayden Christensen,115000000,2002
-Star Wars: I,George Lucas,Ian McDiarmid,115000000,1999
-Star Wars: VI,Richard Marquand,Kenny Baker,32500000,1983
-Star Wars: V,Irvin Kershner,Anthony Daniels,18000000,1980
-Star Wars: IV,George Lucas,Kenny Baker,11000000,1977
-Star Wars: VII,Doug Walker,Polly Walker,93000000,2001
+director_name,actor_1_name,movie_title,title_year,budget
+Peter Jackson,Christopher Lee,Lord of the Rings: 1,2001,93000000
+Peter Jackson,Orlando Bloom,Lord of the Rings: 3,2003,94000000
+Peter Jackson,Christopher Lee,Lord of the Rings: 2,2002,94000000
+David Yates,Emma Watson,Harry Potter: 6,2009,250000000
+David Yates,Emma Watson,Harry Potter: 5,2007,150000000
+Mike Newell,Emma Watson,Harry Potter: 4,2005,150000000
+Alfonso Cuarón,Emma Watson,Harry Potter: 3,2004,130000000
+Matt Birch,Emma Watson,Harry Potter: 7,2011,250000000
+Chris Columbus,Emma Watson,Harry Potter: 1,2001,125000000
+Chris Columbus,Emma Watson,Harry Potter: 2,2002,100000000
+George Lucas,Natalie Portman,Star Wars: III,2005,113000000
+George Lucas,Natalie Portman,Star Wars: II,2002,115000000
+George Lucas,Natalie Portman,Star Wars: I,1999,115000000
+Richard Marquand,Harrison Ford,Star Wars: VI,1983,32500000
+Irvin Kershner,Harrison Ford,Star Wars: V,1980,18000000
+George Lucas,Harrison Ford,Star Wars: IV,1977,11000000
+Doug Walker,Doug Walker,Star Wars: VII,2001,93000000
+Peter Jackson,Orlando Bloom,Lord of the Rings: 1,2001,93000000
+Peter Jackson,Billy Boyd,Lord of the Rings: 3,2003,94000000
+Peter Jackson,Orlando Bloom,Lord of the Rings: 2,2002,94000000
+David Yates,Daniel Radcliffe,Harry Potter: 6,2009,250000000
+David Yates,Daniel Radcliffe,Harry Potter: 5,2007,150000000
+Mike Newell,Daniel Radcliffe,Harry Potter: 4,2005,150000000
+Alfonso Cuarón,Daniel Radcliffe,Harry Potter: 3,2004,130000000
+Matt Birch,Daniel Radcliffe,Harry Potter: 7,2011,250000000
+Chris Columbus,Daniel Radcliffe,Harry Potter: 1,2001,125000000
+Chris Columbus,Daniel Radcliffe,Harry Potter: 2,2002,100000000
+George Lucas,Christopher Lee,Star Wars: III,2005,113000000
+George Lucas,Christopher Lee,Star Wars: II,2002,115000000
+George Lucas,Liam Neeson,Star Wars: I,1999,115000000
+Richard Marquand,Ian McDiarmid,Star Wars: VI,1983,32500000
+Irvin Kershner,Kenny Baker,Star Wars: V,1980,18000000
+George Lucas,Peter Cushing,Star Wars: IV,1977,11000000
+Doug Walker,Rob Walker,Star Wars: VII,2001,93000000
+Peter Jackson,Billy Boyd,Lord of the Rings: 1,2001,93000000
+Peter Jackson,Bernard Hill,Lord of the Rings: 3,2003,94000000
+Peter Jackson,Billy Boyd,Lord of the Rings: 2,2002,94000000
+David Yates,Rupert Grint,Harry Potter: 6,2009,250000000
+David Yates,Rupert Grint,Harry Potter: 5,2007,150000000
+Mike Newell,Rupert Grint,Harry Potter: 4,2005,150000000
+Alfonso Cuarón,Rupert Grint,Harry Potter: 3,2004,130000000
+Matt Birch,Rupert Grint,Harry Potter: 7,2011,250000000
+Chris Columbus,Rupert Grint,Harry Potter: 1,2001,125000000
+Chris Columbus,Rupert Grint,Harry Potter: 2,2002,100000000
+George Lucas,Hayden Christensen,Star Wars: III,2005,113000000
+George Lucas,Hayden Christensen,Star Wars: II,2002,115000000
+George Lucas,Ian McDiarmid,Star Wars: I,1999,115000000
+Richard Marquand,Kenny Baker,Star Wars: VI,1983,32500000
+Irvin Kershner,Anthony Daniels,Star Wars: V,1980,18000000
+George Lucas,Kenny Baker,Star Wars: IV,1977,11000000
+Doug Walker,Polly Walker,Star Wars: VII,2001,93000000
