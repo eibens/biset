@@ -12,7 +12,7 @@ class Biset {
     this.indicatorWidth = 40;
     this.bundleHeight = 48;
     this.bundleSpacing = 8;
-    this.sortMode = 'priority';
+    this.sortMode = 'frequency';
     this.edgeMode = 'edges';
     this.minBundleSources = 2;
     this.minBundleTargets = 2;
