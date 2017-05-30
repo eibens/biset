@@ -5,6 +5,10 @@
     "http-server": "^0.9.0"
   },
   "scripts": {
-    "start": "http-server -o"
+    "start": "http-server -o",
+    "docs": "./node_modules/.bin/jsdoc src/biset.js README.md"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.4.3"
   }
 }
