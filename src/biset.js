@@ -194,7 +194,16 @@ class Biset {
     // This algorithm computes a 'rank' attribute for every entity.
     this._data.entities.forEach(e => e.rank = undefined);
     this._data.bundles
-      .sort((a, b) => a.size - b.size)
+      .filter(b => b.visible)
+      .sort((a, b) => {
+        let s = b.size - a.size;
+        if (s !== 0) return s;
+        let aFreq = d3.sum(a.sources.concat(a.targets), e => e.frequency);
+        let bFreq = d3.sum(b.sources.concat(b.targets), e => e.frequency);
+        s = bFreq - aFreq;
+        if (s !== 0) return s;
+        return labelSort(a.sources[0], b.sources[0]);
+      })
       .map((b, i) => {
         b.rank = i;
         return b;
@@ -209,8 +218,15 @@ class Biset {
         });
       });
 
+    // Ensure all entities have a defined rank.
+    this._data.entities.forEach(e => {
+      if (e.rank === undefined) e.rank = 0;
+    });
+
     let prioritySort = (a, b) => {
-      return a.rank - b.rank;
+      let s = b.rank - a.rank;
+      if (s != 0) return s;
+      return frequencySort(a, b);
     };
 
     let sort = frequencySort;
